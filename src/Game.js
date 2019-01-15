@@ -1,26 +1,104 @@
 import React from 'react';
 import Board from './Board';
+function calculateAllSide(arr, row, col){
+  calculateScoreSlantRight(arr, row, col);
+  calculateScoreSlantLeft(arr, row, col);
+  calculateScoreVertical(arr, row, col);
+  calculateScoreHorizontal(arr, row, col);
+}
+function calculateScoreSlantRight(arr, row, col) {
+//slant right
+    if(arr[row-1][col+1] === 'S' && arr[row+1][col-1] === 'S' ){
+      console.log('Slant right SOS');
+    }
+}
+function calculateScoreSlantLeft(arr, row, col){
+//slant left 
+    if(arr[row-1][col-1] === 'S' && arr[row+1][col+1] === 'S'){
+      console.log('Slant left SOS');
+    }
+}
+function calculateScoreVertical(arr, row, col){
+//vertical 
+    if(arr[row-1][col] === 'S' && arr[row+1][col] === 'S'){
+      console.log('Vertical SOS');
+    }
+}
+function calculateScoreHorizontal(arr, row, col){
+//horizontal
+    if(arr[row][col-1] === 'S' && arr[row][col+1] === 'S'){
+      console.log('Horizontal SOS');
+    }
+}
 
 const calculateWinner = (squares, row, col) => {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-
-  for (let i = 0; i < lines.length; i += 1) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return { winner: squares[a], winnerRow: lines[i] };
-    }
+var arr = listToMatrix(squares, 9);
+var OriginalRow = row;
+var OriginalCol = col;
+if (row > 0 && col > 0 && row < 8 && col < 8) {
+  if(arr[row][col]==='O'){
+    calculateAllSide(arr, row, col);
   }
-  
-console.log('cRow: '+row+' cCol: '+col)
+  if (arr[row - 1][col] === 'O') {
+    row--;
+    calculateAllSide(arr, row, col);
+    row++;
+  } //top
+  if (arr[row - 1][col - 1] === 'O') {
+    row--;
+    col--;
+    calculateAllSide(arr,row,col);
+    row = OriginalRow;
+    col = OriginalCol;
+  } //top left
+  if (arr[row][col - 1] === 'O') {
+    col--;
+    calculateAllSide(arr, row, col);
+    row = OriginalRow;
+    col = OriginalCol;
+  } //left
+  if (arr[row + 1][col - 1] === 'O') {
+    row++;
+    col--;
+    calculateAllSide(arr, row, col);
+    row = OriginalRow;
+    col = OriginalCol;
+  } // bot left
+  if (arr[row + 1][col] === 'O') {
+    row++;
+    calculateAllSide(arr, row, col);
+    row = OriginalRow;
+    col = OriginalCol;
+  } //bot 
+  if (arr[row + 1][col + 1] === 'O') {
+    row++;
+    col++;
+    calculateAllSide(arr, row, col);
+    row = OriginalRow;
+    col = OriginalCol;
+  } //bot right
+  if (arr[row][col + 1] === 'O') {
+    col++;
+    calculateAllSide(arr, row, col);
+    row = OriginalRow;
+    col = OriginalCol;
+  } //bot right
+  if (arr[row - 1][col + 1] === 'O') {
+    row--;
+    col++;
+    calculateAllSide(arr, row, col);
+    row = OriginalRow;
+    col = OriginalCol;
+    
+  } //top right
+
+  // calculateScore(arr, row, col);
+console.log('\n')
+}
+console.log('Row: ' + row + ' Col: ' + col + '\n');
+console.log('OriginalRow: ' + OriginalRow + ' OriginalCol: '+ OriginalCol);
+console.log('\n')
+ //return { winner: squares[a], winnerRow: lines[i] };
   return { winner: null, winnerRow: null };
 };
 
@@ -51,7 +129,7 @@ function listToMatrix(list, elementsPerSubArray) {
 
         matrix[k].push(list[i]);
     }
-
+    // console.log('matrix' + matrix);
     return matrix;
 }
 
@@ -61,6 +139,7 @@ function listToMatrix(list, elementsPerSubArray) {
 
     let currentRow = 0;
     let currentColumn = 0;
+    let score = 0 ;
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -70,8 +149,12 @@ class Game extends React.Component {
           squares: Array(81).fill(null),
         },
       ],
+      // Row: 0,
+      // Column: 0,
       currentStepNumber: 0,
       xIsNext: true,
+      score: 0,
+      winningLines:[],
     };
   }
 
@@ -120,7 +203,7 @@ class Game extends React.Component {
     const { winner, winnerRow } = calculateWinner(current.squares, currentRow, currentColumn );
 
     const moves = history.map((step, move) => {
-      const currentLocation = step.currentLocation ? `(${step.currentLocation})` : '';
+      const currentLocation = '';
       const desc = step.stepNumber ? `Go to move #${step.stepNumber}` : 'Go to game start';
       const classButton = move === this.state.currentStepNumber ? 'button--green' : '';
       // console.log('step.currentLocation ' + step.currentLocation)
