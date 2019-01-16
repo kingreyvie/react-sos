@@ -1,9 +1,10 @@
 import React from 'react';
 import Square from './Square';
-
+    const BoardSize = 30;
 class Board extends React.Component {
   createBoard(row, col) {
-    const board = [];
+    const board = []; 
+
     let cellCounter = 0;
 
     for (let i = 0; i < row; i++) {
@@ -18,6 +19,11 @@ class Board extends React.Component {
   }
 
   renderSquare(i) {
+    // var orig = parseInt(i / 9);
+    // console.log('rrow' + parseInt(i / 9));
+    // console.log('ccol' + parseInt(i % 9));
+    // console.log('original Square: ' + orig * 9);
+    // console.log('renderSquare: ' + i );
     const winnerClass =
       this.props.winnerSquares &&
       (this.props.winnerSquares[0] === i ||
@@ -37,7 +43,7 @@ class Board extends React.Component {
   }
 
   render() {
-    return <div>{this.createBoard(9, 9)}</div>;
+    return <div>{this.createBoard(this.props.BoardSize, this.props.BoardSize)}</div>;
   }
 }
 

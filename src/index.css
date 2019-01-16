@@ -1,6 +1,7 @@
 body {
   font: 24px 'Century Gothic', Futura, sans-serif;
   margin: 20px;
+
 }
 
 ol,
@@ -36,6 +37,9 @@ ul {
 .square--green {
   background: green;
 }
+.square--red {
+  background: red;
+}
 
 .square:focus {
   outline: none;
@@ -48,10 +52,15 @@ ul {
 .game {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .game-info {
   margin-left: 20px;
+  text-align: center;
+  align-content: center;
+  align-items: center;
 }
 
 .button {
