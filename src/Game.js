@@ -39,7 +39,6 @@ var box = this.listToMatrix(squares, BoardSize);
       }
     }
   }
-
 else{
   console.log('row2: [' + row + '] col2: [' + col + ']');
 }
@@ -72,32 +71,19 @@ Score(sIsWinner) {
 
 // winningLines function - check if the 
 checkScoredLines(first, second){
-
-  console.log('first ' + first + " second " + second)
-
   if(this.state.scoredLines.length === 0){
-    console.log('false');
     return false
   }
-  console.log('length ' + this.state.scoredLines.length)
-
   for (let i = 0; i < this.state.scoredLines.length; i++) {
-    console.log('all scored: ' + this.state.scoredLines);
-    console.log('scored: ' + this.state.scoredLines[i] + ' , ' + this.state.scoredLines[i+1]);
+
     if (this.state.scoredLines[i][0] === first && this.state.scoredLines[i][1] === second) {
-      console.log('tin yang ikit')
-      console.log('if scored' + this.state.scoredLines[i][0] + ' ' + this.state.scoredLines[i][1]);
-      console.log('first2 ' + first + 'second2 '+ second )
-      
       return true
     }
   }
 
   return false
 }
-// checkLines(row1,col1,row2,col2){
 
-// }
 calculateAllSide(box, row, col) {
   if (box[row - 1][col + 1] === 'S' && box[row + 1][col - 1] === 'S') {
     if (!this.checkScoredLines(((row - 1) + '' + (col+1)), (row + 1) +''+ (col-1))) {
@@ -174,7 +160,7 @@ handleClick(i) {
       <div className="game-info">
         <div>
           <h1>Player 1 Score: { this.state.Player1Score}</h1>
-          <h1>Player 2 Score: { this.state.Player2Score}</h1>
+          <h1 className="player2Score">Player 2 Score: { this.state.Player2Score}</h1>
         </div>
       <div className="game">
         <div className="game-board">
