@@ -1,6 +1,5 @@
 import React from 'react';
 import Square from './Square';
-    const BoardSize = 30;
 class Board extends React.Component {
   createBoard(row, col) {
     const board = []; 
